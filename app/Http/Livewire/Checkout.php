@@ -97,32 +97,44 @@ class Checkout extends Component
     // Fungsi untuk menangani transaksi sukses
     public function success(Request $request)
     {
-        // The payment result sent from the front-end
+        // Get the payment result from Midtrans
         $paymentResult = $request->all();
-        \Log::info('Received payment result: ' . json_encode($paymentResult));
+        \Log::info('Payment Success: ' . json_encode($paymentResult));
     
-        // Verify the transaction with Midtrans API
+        // Get the order ID and transaction status
         $orderId = $paymentResult['order_id'];
         $transactionStatus = $paymentResult['transaction_status'];
     
+        // Find the order
         $order = Order::find($orderId);
-        if ($transactionStatus == 'capture' || $transactionStatus == 'settlement') {
+    
+        if ($order && ($transactionStatus == 'capture' || $transactionStatus == 'settlement')) {
+            // Update the order status to 'processing' if payment is successful
             $order->status = 'processing';
             $order->save();
-            Cart::destroy();
+            
+            // Return a response to indicate the success of the operation
             return response()->json([
                 'success' => true,
-                'redirect_url' => route('checkout.success')
+                'redirect_url' => route('checkout.success.page')  // Redirect to GET success page
             ]);
         } else {
+            // Payment failed or is pending, handle failure
             return response()->json([
                 'success' => false,
-                'error' => 'Payment verification failed'
+                'error' => 'Payment verification failed.'
             ]);
         }
     }
+    public function successPage()
+    {
+        // Get the necessary customer and order data
+        $user = Auth::user();
+        $order = Order::where('user_id', $user->id)->latest()->first();  // Get the latest order of the user
     
-    
+        return view('livewire.success', ['customer' => $user, 'order' => $order]);
+    }
+        
 
     // Fungsi untuk menangani status pembayaran pending
     public function pending(Request $request)

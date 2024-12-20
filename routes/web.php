@@ -37,7 +37,12 @@ Route::get('/checkout-success', Checkout::class)->name('checkout.success');
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [Checkout::class, 'render'])->name('checkout');
     Route::post('/checkout-order', [Checkout::class, 'makeOrder'])->name('checkout.order');
-    Route::post('/checkout/success', [Checkout::class, 'success'])->name('checkout.success');
+   // POST route to handle payment response and status updates
+Route::post('/checkout/success', [Checkout::class, 'success'])->name('checkout.success');
+
+// GET route to show the success page to the user
+Route::get('/checkout/success-page', [Checkout::class, 'successPage'])->name('checkout.success.page');
+
     Route::get('/checkout-cancel', [Checkout::class, 'cancel'])->name('checkout.cancel');
     Route::put('/order/{order}/status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     // Tambahkan rute untuk halaman pending dan gagal

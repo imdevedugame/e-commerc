@@ -9,11 +9,10 @@
 <body>
     <script type="text/javascript">
         snap.pay(JSON.parse('@json($snapToken)'), {
-    onSuccess: function(result) {
+            onSuccess: function(result) {
         alert("Payment Successful!");
-        // Send result to server for validation
         fetch("{{ route('checkout.success') }}", {
-            method: "POST",
+            method: "POST",  // Use POST to send the payment data to the server
             headers: {
                 "Content-Type": "application/json",
                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
@@ -23,6 +22,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // If success, redirect to the success page
                 window.location.href = data.redirect_url;
             } else {
                 alert(data.error);
