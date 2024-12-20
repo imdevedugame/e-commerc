@@ -48,13 +48,15 @@
                             <a href="{{route('invoice', $order)}}" class="bg-orange-500 text-white px-4 py-2 font-semibold rounded-full">
                                 Lihat Detail</a>
                             
-                            @if($order->status == 'pending')
-                                <form action="{{ route('order.updateStatus', $order->id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="bg-green-500 text-white px-4 py-2 font-semibold rounded-full mt-2">
-                                        Pesan Diterima
-                                    </button>
+                            @if($order->status == 'processing')
+                            <form action="{{ route('order.updateStatus', $order->id) }}" method="POST" class="inline-block">
+    @csrf
+    @method('PUT')
+    <button type="submit" class="bg-green-500 text-white px-4 py-2 font-semibold rounded-full mt-2">
+        Pesan Diterima
+    </button>
+</form>
+
                                 </form>
                             @endif
                         </td>

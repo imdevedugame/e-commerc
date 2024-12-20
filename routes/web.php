@@ -44,7 +44,8 @@ Route::post('/checkout/success', [Checkout::class, 'success'])->name('checkout.s
 Route::get('/checkout/success-page', [Checkout::class, 'successPage'])->name('checkout.success.page');
 
     Route::get('/checkout-cancel', [Checkout::class, 'cancel'])->name('checkout.cancel');
-    Route::put('/order/{order}/status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+    Route::put('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+
     // Tambahkan rute untuk halaman pending dan gagal
     Route::get('/checkout-pending', [Checkout::class, 'pending'])->name('checkout.pending');
     Route::get('/checkout-failed', [Checkout::class, 'failed'])->name('checkout.failed');

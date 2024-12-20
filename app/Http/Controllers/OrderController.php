@@ -14,18 +14,20 @@ class OrderController extends Controller
      * @param  int  $orderId
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateStatus($orderId)
-    {
-        // Find the order by its ID
-        $order = Order::findOrFail($orderId);
+    public function updateStatus($id)
+{
+    try {
+        $order = Order::findOrFail($id); // Jika ID tidak ditemukan, lempar 404 error
 
-        // Only update if the status is 'pending'
-        if ($order->status === 'pending') {
-            $order->status = 'success';  // Update status to success
-            $order->save();
-        }
+        // Update status menjadi 'completed'
+        $order->status = 'completed';
+        $order->save();
 
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Pesanan telah diterima!');
+        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui.');
+    } catch (\Exception $e) {
+        \Log::error('Error updating order status: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui status.');
     }
+}
+
 }

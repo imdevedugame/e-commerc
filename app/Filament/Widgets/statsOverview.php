@@ -6,26 +6,29 @@ use App\Models\Order;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
-class statsOverview extends BaseWidget
+class StatsOverview extends BaseWidget
 {
     protected function getCards(): array
     {
-        $unshippedOrders = Order::where('status', '!=', 'completed')->count();
-        $totalSales = Order::where('status', 'completed')->sum('total');
-        $totalSalesLast30Days = Order::where('status', 'completed')->where('created_at', '>=', now()->subDays(30))->sum('total');
+        $pesananBelumDikirim = Order::where('status', '!=', 'completed')->count();
+        $totalPenjualan = Order::where('status', 'completed')->sum('total');
+        $totalPenjualan30HariTerakhir = Order::where('status', 'completed')
+            ->where('created_at', '>=', now()->subDays(30))
+            ->sum('total');
+
         return [
-            Card::make('Last 30 Days', '$'.$totalSalesLast30Days)
-            ->description('Total sales for the last 30 days')
-            ->color('success')
-            ->icon('heroicon-o-currency-dollar'),
-            Card::make('Total Sales', '$'.$totalSales)
-            ->description('Total income from completed orders')
-            ->color('success')
-            ->icon('heroicon-o-currency-dollar'),
-            Card::make('Unshipped Orders', $unshippedOrders)
-              ->description('Orders that have not been shipped yet')
-              ->color('danger')
-              ->icon('heroicon-o-inbox'),
+            Card::make('30 Hari Terakhir', 'Rp' . number_format($totalPenjualan30HariTerakhir, 0, ',', '.'))
+                ->description('Total penjualan dalam 30 hari terakhir')
+                ->color('success')
+                ->icon('heroicon-o-currency-dollar'),
+            Card::make('Total Penjualan', 'Rp' . number_format($totalPenjualan, 0, ',', '.'))
+                ->description('Pendapatan dari pesanan yang telah selesai')
+                ->color('success')
+                ->icon('heroicon-o-currency-dollar'),
+            Card::make('Pesanan Belum Dikirim', $pesananBelumDikirim)
+                ->description('Pesanan yang belum dikirim')
+                ->color('danger')
+                ->icon('heroicon-o-inbox'),
         ];
     }
 }

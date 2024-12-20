@@ -36,44 +36,51 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
-    protected static ?string $navigationGroup = 'Shop';
+    protected static ?string $navigationGroup = 'Toko';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nama Produk')
                     ->required(),
                 Forms\Components\TextInput::make('SKU')
-                    ->helperText('SKU be like this SKU-####')
+                    ->helperText('SKU seperti ini: SKU-####')
                     ->regex('/SKU-\d{4}/')
                     ->required(),
                 Forms\Components\TextInput::make('price')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('Rp')
                     ->rules(['min:0'])
+                    ->label('Harga')
                     ->required(),
                 Forms\Components\TextInput::make('old_price')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('Rp')
                     ->rules(['min:0'])
+                    ->label('Harga Sebelum Diskon')
                     ->required(),
-                Forms\Components\TextInput::make('quantity')->numeric(),
+                Forms\Components\TextInput::make('quantity')
+                    ->numeric()
+                    ->label('Jumlah Stok'),
                 Forms\Components\TextInput::make('brief_description')
+                    ->label('Deskripsi Singkat')
                     ->rules(['min:10', 'max:100'])
                     ->required(),
                 Forms\Components\Select::make('stock_status')->options([
-                    'instock' => 'In Stock',
-                    'outstock' => 'Out of Stock',
+                    'instock' => 'Tersedia',
+                    'outstock' => 'Habis',
                 ])
-                    ->default('instock'),
+                    ->default('instock')
+                    ->label('Status Stok'),
                 Forms\Components\FileUpload::make('image')
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                         $fileName = $file->hashName();
                         $name = explode('.', $fileName);
                         return (string) str('images/products/main_image/' . $name[0] . '.' . $name[1]);
                     })
-                    ->label('Main Image')
+                    ->label('Gambar Utama')
                     ->maxSize(3072)
                     ->image()
                     ->imageResizeMode('cover')
@@ -88,7 +95,7 @@ class ProductResource extends Resource
                         return (string) str('images/products/alt_images/' . $name[0] . '.' . $name[1]);
                     })
                     ->columnSpan('full')
-                    ->label('Alternate Images')
+                    ->label('Gambar Alternatif')
                     ->maxSize(3072)
                     ->image()
                     ->imageResizeMode('cover')
@@ -97,6 +104,7 @@ class ProductResource extends Resource
                     ->imageResizeTargetHeight('450')
                     ->required(),
                 Forms\Components\RichEditor::make('description')
+                    ->label('Deskripsi Produk')
                     ->maxLength(1000)
                     ->columnSpan('full')
                     ->toolbarButtons([
@@ -114,6 +122,7 @@ class ProductResource extends Resource
                         'undo',
                     ]),
                 Forms\Components\CheckboxList::make('categories')
+                    ->label('Kategori')
                     ->columnSpan('full')
                     ->relationship('categories', 'name'),
 
@@ -124,16 +133,33 @@ class ProductResource extends Resource
     {
         return $table
             ->headerActions([
-                FilamentExportHeaderAction::make('export')
+                FilamentExportHeaderAction::make('ekspor')
             ])
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('SKU')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('price')->prefix('$')->sortable(),
-                Tables\Columns\TextColumn::make('quantity')->sortable(),
-                Tables\Columns\TextColumn::make('created_at')->sortable()->date('M d H:i'),
-                Tables\Columns\TextColumn::make('updated_at')->sortable()->date('M d H:i'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Gambar'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Produk')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('SKU')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->prefix('Rp')
+                    ->label('Harga')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('quantity')
+                    ->label('Jumlah Stok')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Dibuat')
+                    ->sortable()
+                    ->date('d M H:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Tanggal Diperbarui')
+                    ->sortable()
+                    ->date('d M H:i'),
             ])
             ->filters([
                 //
@@ -144,7 +170,7 @@ class ProductResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                FilamentExportBulkAction::make('export'),
+                FilamentExportBulkAction::make('ekspor'),
             ]);
     }
 

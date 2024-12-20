@@ -2,13 +2,13 @@
     <div class="container mx-auto px-4 py-8">
         <div class="flex justify-end mb-4">
             <a href="{{ route('invoice.pdf', $order) }}" target="__blank" class="btn">
-                Download Invoice</a>
+                Unduh Faktur</a>
         </div>
         <div class="bg-orange-100/40 p-8 rounded-3xl">
             <header class="flex justify-between items-center mb-8">
                 <div>
-                    <h1 class="text-5xl font-bold text-orange-600">Invoice</h1>
-                    <p class="text-md">Invoice #{{ $order->id }}</p>
+                    <h1 class="text-5xl font-bold text-orange-600">Faktur</h1>
+                    <p class="text-md">Faktur #{{ $order->id }}</p>
                 </div>
                 <div>
                     <p class="text-orange-600 font-semibold">SHOPI</p>
@@ -18,21 +18,21 @@
                 </div>
             </header>
             <div class="mb-8 text-lg">
-                <p class="text-orange-600 font-semibold mb-2 text-xl">Bill To:</p>
-                <p><strong>Name</strong> : {{ ucfirst($order->user->name) }}</p>
-                <p><strong>Phone</strong> : {{ ucfirst($order->user->billingDetails->phone) }}</p>
-                <p><strong>Address</strong> : {{ ucfirst($order->user->billingDetails->billing_address) }}</p>
-                <p><strong>City</strong> : {{ ucfirst($order->user->billingDetails->city) }}, <strong>State</strong> :
+                <p class="text-orange-600 font-semibold mb-2 text-xl">Ditagihkan Kepada:</p>
+                <p><strong>Nama</strong> : {{ ucfirst($order->user->name) }}</p>
+                <p><strong>Telepon</strong> : {{ ucfirst($order->user->billingDetails->phone) }}</p>
+                <p><strong>Alamat</strong> : {{ ucfirst($order->user->billingDetails->billing_address) }}</p>
+                <p><strong>Kota</strong> : {{ ucfirst($order->user->billingDetails->city) }}, <strong>Provinsi</strong> :
                     {{ ucfirst($order->user->billingDetails->state) }}
                 </p>
             </div>
             <table class="w-full text-left table-auto bg-white/60">
                 <thead>
                     <tr>
-                        <th class="px-4 py-2 text-orange-600">Product image</th>
-                        <th class="px-4 py-2 text-orange-600">Product name</th>
-                        <th class="px-4 py-2 text-orange-600">Quantity</th>
-                        <th class="px-4 py-2 text-orange-600">Price</th>
+                        <th class="px-4 py-2 text-orange-600">Gambar Produk</th>
+                        <th class="px-4 py-2 text-orange-600">Nama Produk</th>
+                        <th class="px-4 py-2 text-orange-600">Jumlah</th>
+                        <th class="px-4 py-2 text-orange-600">Harga</th>
                         <th class="px-4 py-2 text-orange-600">Total</th>
                     </tr>
                 </thead>
@@ -49,19 +49,19 @@
                                 <p>{{ $item->product->brief_description }}</p>
                             </td>
                             <td class="px-4 py-2">{{ $item->quantity }}</td>
-                            <td class="px-4 py-2">${{ $item->product->price }}</td>
-                            <td class="px-4 py-2">${{ $item->product->price * $item->quantity }}</td>
+                            <td class="px-4 py-2">Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
+                            <td class="px-4 py-2">Rp {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="text-lg">
                     <tr class="font-semibold">
                         <td colspan="4" class="px-4 py-2 text-right">Subtotal:</td>
-                        <td class="px-4 py-2">${{ $order->total }}</td>
+                        <td class="px-4 py-2">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
                     </tr>
                     <tr class="font-semibold text-orange-600">
                         <td colspan="4" class="px-4 py-2 text-right">Total:</td>
-                        <td class="px-4 py-2">${{ $order->total }}</td>
+                        <td class="px-4 py-2">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
                     </tr>
                 </tfoot>
             </table>
