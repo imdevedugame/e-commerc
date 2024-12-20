@@ -10,6 +10,7 @@ use App\Http\Livewire\ProductDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,20 +32,27 @@ Route::post('/dec-qty', [Cart::class, 'decQty'])->name('qty.down');
 Route::delete('/destroy-item', [Cart::class, 'destroyItem'])->name('destroy.item');
 Route::delete('/destroy-cart', [Cart::class, 'destroyCart'])->name('destroy.cart');
 Route::get('/cart', [Cart::class, 'render'])->name('cart');
+Route::get('/checkout-success', Checkout::class)->name('checkout.success');
 
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [Checkout::class, 'render'])->name('checkout');
     Route::post('/checkout-order', [Checkout::class, 'makeOrder'])->name('checkout.order');
-    Route::get('/checkout-success', [Checkout::class, 'success'])->name('checkout.success');
+    Route::post('/checkout/success', [Checkout::class, 'success'])->name('checkout.success');
     Route::get('/checkout-cancel', [Checkout::class, 'cancel'])->name('checkout.cancel');
+    Route::put('/order/{order}/status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+    // Tambahkan rute untuk halaman pending dan gagal
+    Route::get('/checkout-pending', [Checkout::class, 'pending'])->name('checkout.pending');
+    Route::get('/checkout-failed', [Checkout::class, 'failed'])->name('checkout.failed');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard/invoice/{order}', [Dashboard::class, 'invoice'])->name('invoice');
     Route::get('/dashboard/invoice/pdf/{order}', [Dashboard::class, 'invoicePdf'])->name('invoice.pdf');
+
     Route::get('/dashboard', [Dashboard::class, 'render'])->name('dashboard');
 });
+
 
 
 require __DIR__.'/auth.php';

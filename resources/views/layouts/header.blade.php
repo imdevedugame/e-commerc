@@ -7,7 +7,7 @@
                 </div>
                 <div class="search-style-1 flex-grow px-20">
                     <form action="{{ route('home') }}" class="w-100">
-                        <input id="search" name="search" type="text" placeholder="Search for any product, category, brand..."/>
+                        <input id="search" name="search" type="text" placeholder="Cari produk, kategori, merek..."/>
                     </form>
                 </div>
                 <div class="header-action-right">
@@ -17,21 +17,21 @@
                                 <nav class="">
                                     <ul class="">
                                         <li>
-                                            <h1 class="text-black font-bold text-[1rem]">Hi, {{ Auth::user()->name }}</h1>
+                                            <h1 class="text-black font-bold text-[1rem]">Hai, {{ Auth::user()->name }}</h1>
                                         </li>
-                                        <li><a href="#">My Account<i class="fi-rs-angle-down"></i></a>
+                                        <li><a href="#">Akun Saya<i class="fi-rs-angle-down"></i></a>
                                             <ul class="sub-menu">
                                                 @if (Auth::user()->is_admin)
-                                                    <li><a href="/admin">Admin Dashboard</a></li>
+                                                    <li><a href="/admin">Dashboard Admin</a></li>
                                                 @endif
-                                                <li><a href="{{ route('dashboard') }}">Orders Dashboard</a></li>
-                                                <li><a href="{{ route('profile.edit') }}">Account Settings</a></li>
+                                                <li><a href="{{ route('dashboard') }}">Dashboard Pesanan</a></li>
+                                                <li><a href="{{ route('profile.edit') }}">Pengaturan Akun</a></li>
                                                 <li>
                                                     <form method="POST" action="{{ route('logout') }}">
                                                         @csrf
                                                         <a href="{{ route('logout') }}"
                                                             onclick="event.preventDefault(); this.closest('form').submit();">
-                                                            {{ __('Log Out') }}
+                                                            {{ __('Keluar') }}
                                                         </a>
                                                     </form>
                                                 </li>
@@ -41,11 +41,10 @@
                                 </nav>
                             </div>
                             @else
-                            <a href="{{ route('login') }}" class="pr-4 text-md font-semibold ">Log
-                                in</a>
+                            <a href="{{ route('login') }}" class="pr-4 text-md font-semibold ">Masuk</a>
 
                                 @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="btn btn-sm btn-default">Register</a>
+                                <a href="{{ route('register') }}" class="btn btn-sm btn-default">Daftar</a>
                                 @endif
                                 @endauth
                                 <div class="header-action-icon-2 ml-10">
@@ -68,7 +67,7 @@
                                                                 {{ strlen($item->model->name) > 15 ? substr($item->model->name, 0, 15) . '...' : $item->model->name }}
                                                             </a>
                                                         </h4>
-                                                        <h4><span>{{$item->qty}} × </span>${{$item->model->price}}</h4>
+                                                        <h4><span>{{$item->qty}} × </span>Rp{{$item->model->price}}</h4>
                                                     </div>
                                                     <div class="shopping-cart-delete">
                                                         <form action="{{ route('destroy.item') }}" method="post">
@@ -83,10 +82,10 @@
                                         </ul>
                                         <div class="shopping-cart-footer">
                                             <div class="shopping-cart-total">
-                                                <h4>Total <span>${{Cart::total()}}</span></h4>
+                                                <h4>Total <span>Rp{{Cart::total()}}</span></h4>
                                             </div>
                                             <div class="shopping-cart-button">
-                                                <a href="{{ route('cart') }}" class="btn btn-sm btn-secondary">View cart</a>
+                                                <a href="{{ route('cart') }}" class="btn btn-sm btn-secondary">Lihat Keranjang</a>
                                                 <a href="{{ route('checkout') }}" class="btn btn-sm">Checkout</a>
                                             </div>
                                         </div>

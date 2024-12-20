@@ -12,12 +12,12 @@
                         <table class="table shopping-summery text-center clean">
                             <thead>
                                 <tr class="main-heading">
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Gambar</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Jumlah</th>
                                     <th scope="col">Subtotal</th>
-                                    <th scope="col">Remove</th>
+                                    <th scope="col">Hapus</th>
                                 </tr>
                             </thead>
                             @if (Cart::count() > 0)
@@ -39,9 +39,9 @@
                                                     {{ $item->model->brief_description }}
                                                 </p>
                                             </td>
-                                            <td class="price" data-title="Price"><span>${{ $item->model->price }}
+                                            <td class="price" data-title="Harga"><span>Rp{{ $item->model->price }}
                                                 </span></td>
-                                            <td class="text-center" data-title="Stock">
+                                            <td class="text-center" data-title="Stok">
                                                 <div
                                                     class="border rounded-md px-2 py-1 flex items-center justify-between">
                                                     <span class="qty-val">{{ $item->qty }}</span>
@@ -65,10 +65,10 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right" data-title="Cart">
-                                                <span>${{ $item->subtotal }} </span>
+                                            <td class="text-right" data-title="Subtotal">
+                                                <span>Rp{{ $item->subtotal }} </span>
                                             </td>
-                                            <td class="action" data-title="Remove">
+                                            <td class="action" data-title="Hapus">
                                                 <form action="{{ route('destroy.item') }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
@@ -87,49 +87,45 @@
                                                 <a onclick="event.preventDefault(); this.closest('form').submit()"
                                                     class="text-muted">
                                                     <i class="fi-rs-cross-small"></i>
-                                                    Clear Cart</a>
+                                                    Kosongkan Keranjang</a>
                                             </form>
                                         </td>
                                     </tr>
 
                                 </tbody>
                             @else
-                                <h1 class="text-xl font-bold pb-20">No item in cart</h1>
+                                <h1 class="text-xl font-bold pb-20">Tidak ada item di keranjang</h1>
                             @endif
                         </table>
                     </div>
-                    {{-- <div class="cart-action text-end">
-                        <a class="btn " href="{{ route('home') }}"><i class="fi-rs-shopping-bag mr-10"></i>Continue
-                            Shopping</a>
-                    </div> --}}
                     @if (Cart::count() > 0)
                         <div class="flex justify-center mb-50">
                             <div class="w-100">
                                 <div class=" rounded-xl cart-totals">
                                     <div class="mb-3">
                                         <h1 class="font-bold text-lg tracking-widest text-orange-500 mb-2 uppercase">
-                                            Cart total</h1>
+                                            Total Keranjang</h1>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tbody>
                                                 <tr>
-                                                    <td class="cart_total_label">Cart Subtotal</td>
+                                                    <td class="cart_total_label">Subtotal</td>
                                                     <td class="cart_total_amount"><span
-                                                            class="font-lg fw-900 text-brand">${{ Cart::subtotal() }}</span>
+                                                            class="font-lg fw-900 text-brand">Rp{{ Cart::subtotal() }}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="cart_total_label">Shipping</td>
-                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free
-                                                        Shipping</td>
+                                                    <td class="cart_total_label">Pengiriman</td>
+                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Gratis
+                                                        Pengiriman</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="cart_total_label">Tax</td>
+                                                    <td class="cart_total_label">Pajak</td>
                                                     <td class="cart_total_amount">
                                                         <i class="ti-gift mr-5"></i>
                                                         <strong class="font-xl text-red-500">
-                                                            ${{ Cart::tax() }}
+                                                            Rp{{ Cart::tax() }}
                                                         </strong>
                                                     </td>
                                                 </tr>
@@ -137,7 +133,7 @@
                                                     <td class="cart_total_label">Total</td>
                                                     <td class="cart_total_amount">
                                                         <strong><span class="font-xl fw-900 text-brand">
-                                                                ${{ Cart::total() }}
+                                                                Rp{{ Cart::total() }}
                                                             </span></strong>
                                                     </td>
 
@@ -148,7 +144,7 @@
                                     <div class="cart-action text-end">
                                         <a href="{{ route('checkout') }}" class="btn"> <i
                                                 class="fi-rs-box-alt mr-10"></i>
-                                            Proceed to Checkout</a>
+                                            Lanjutkan ke Checkout</a>
                                     </div>
                                 </div>
                             </div>
