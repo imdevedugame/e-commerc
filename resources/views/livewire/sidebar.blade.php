@@ -28,21 +28,16 @@
     </div>
     <!-- Filter Berdasarkan Harga -->
     <div class="sidebar-widget price_range range mb-30 rounded-3xl border-slate-200 shadow-md" style="border-radius: 30px">
-        <h1 class="font-bold text-lg tracking-widest text-orange-500 mb-4 uppercase">Filter Berdasarkan Harga</h1>
+        <h1 class="font-bold text-lg tracking-widest text-orange-500 mb-4 uppercase">Disclaimer</h1>
         <div class="price-filter">
             <form action="{{ url()->current() }}">
                 <div class="price-filter-inner">
-                    <div id="slider-range"></div>
-                    <div class="price_slider_amount">
-                        <div class="label-input">
-                            <span>Rentang:</span>
-                            <input type="text" id="amount" name="range" placeholder="Format yang diperlukan Rp xx - Rp xx">
-                        </div>
+                    <div id="">
+                        <p>kami menjual bucket bunga yang original dan pasti kualitasnya sangatlah bagus tidak diragukan lagi</p>
                     </div>
+                   
                 </div>
-                <button type="submit" class="btn btn-sm">
-                    Terapkan Filter
-                </button>
+              
             </form>
         </div>
     </div>
